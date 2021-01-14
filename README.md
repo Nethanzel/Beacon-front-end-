@@ -1,4 +1,4 @@
-# __Beacon ## (front-end)__
+# Beacon (front-end)
 
 The front-end of the Beacon project, made ussing Vue.
 
