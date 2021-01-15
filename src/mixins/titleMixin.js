@@ -7,7 +7,7 @@ function getTitle (vm) {
     }
 
   }
-  
+
   export default {
     created () {
       const title = getTitle(this)

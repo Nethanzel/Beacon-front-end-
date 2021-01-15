@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import store from '../store/index'
 
 Vue.use(VueRouter)
 
 const routes = [
-
 
   {
     path: '/',
@@ -61,9 +60,6 @@ const routes = [
       requiresAuth: true
     }
   },
-
- 
- 
 ]
 
 const router = new VueRouter({
@@ -71,7 +67,17 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
 
-
+  if (to.name !== 'login' && !store.state.loginState) {
+    next({ name: 'login' })
+  } else if (to.name == 'login' && store.state.loginState)  {
+    next({ name: 'dashboard' })
+  } else if (to.name == 'options' && store.state.user.permissions != 100){
+    next()
+  } else {
+    next()
+  } 
+})
 
 export default router

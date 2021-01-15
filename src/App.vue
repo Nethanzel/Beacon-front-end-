@@ -1,20 +1,12 @@
 <template>
 
   <div id="app">
-      
-    
     <router-view />
-
-
   </div>
 
 </template>
 
 <script>
-
-//import login from './views/loggin.vue'
-
-//import dash from './views/dashbrd.vue'
 import axios from 'axios'
 
 export default {
@@ -30,12 +22,27 @@ export default {
       if (logState.loginState == true) {
 
         axios.post(`/api/login?username=${logState.user.username}&password=${logState.user.key}`)
-        this.$store.commit('setUserState', logState.user)
+        .then(response => {
 
-        this.$router.push('dashboard')
+          let rData = response.data;
+        
+          if(rData.access == true) {
+
+            let uData = rData.user;
+            this.$store.commit('setUserState', uData)
+            this.$store.commit('initialiseStore')
+            this.$router.go('dashboard')
+
+          } else if(rData.access == false) {
+            localStorage.removeItem('beacon');
+            this.$store.commit('logOut')
+            this.$router.go('/')
+          }
+        })
+
       } 
     } catch (error) {
-      console.log("Store not found.")
+      console.log("")
     }
 
 
@@ -76,7 +83,6 @@ export default {
   
   margin: 0;
   padding: 0;
-
 }
 
 h1, h2 ,h3, h4 {

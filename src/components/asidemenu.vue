@@ -19,7 +19,7 @@
 
         <div class="details">
 
-          <p class="p_details"><span>Last log in:</span> {{ this.$store.state.user.last_log.substring(0, 10) + " at " + this.$store.state.user.last_log.substring(11, 16) }} </p>
+          <p class="p_details"><span>Last log in:</span> {{ formatedLogDate }} </p>
 
           <p class="p_details"><span>From:</span> {{ this.$store.state.user.last_ip }}</p>
 
@@ -165,6 +165,12 @@ export default {
 
       }
     }, 500)
+  },
+
+  computed: {
+    formatedLogDate() {
+      return this.$store.state.user.last_log.substring(0, 10) + " at " + this.$store.state.user.last_log.substring(11, 16)
+    }
   }
 };
 
